@@ -22,8 +22,12 @@ class NewMessageTableViewController: UITableViewController {
     private let cellID = "reusableCell"
     private var friendsID = [String]()
     private var friendsData = [User]()
+    private var selectedUserIndex: Int!
+    var isComingBackFromNewMessage: Bool!
     
     override func viewWillAppear(_ animated: Bool) {
+        navigationItem.setHidesBackButton(true, animated: true)
+        
         if friendsData.isEmpty {
             fetchFriendID()
         } else {
@@ -44,7 +48,6 @@ class NewMessageTableViewController: UITableViewController {
         
         navigationItem.title = "New Message"
         navigationItem.searchController = searchController
-        
     }
     
     func setupEmptyView() {
@@ -152,15 +155,24 @@ class NewMessageTableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        dismiss(animated: true) {
-            let chatsViewRef = ChatsTableViewController()
-            let user = self.friendsData[indexPath.row]
-            chatsViewRef.initiateChatWithUser(user: user)
+        selectedUserIndex = indexPath.row
+        performSegue(withIdentifier: "openChatSegue", sender: self)
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        
+        if segue.identifier == "openChatSegue" {
+            let vc = segue.destination as! ChatCollectionView
+            vc.isFromNewMessage = true
+            
+            vc.receiverID = self.friendsData[selectedUserIndex].id
+            vc.receiverName = self.friendsData[selectedUserIndex].name
+            vc.receiverLastname = self.friendsData[selectedUserIndex].lastname
         }
     }
     
     @IBAction func cancelButtonTapped(_ sender: UIBarButtonItem) {
-        dismiss(animated: true, completion: nil)
+        navigationController?.popToRootViewController(animated: true)
     }
     
     

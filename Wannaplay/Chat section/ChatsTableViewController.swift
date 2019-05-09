@@ -74,16 +74,10 @@ class ChatsTableViewController: UITableViewController {
         return action
     }
     
-    func initiateChatWithUser(user: User) {
-        let chatRef = ChatCollectionView()
-        //navigationController?.pushViewController(chatRef, animated: true)
-    }
-
     @IBAction func newMessageTapped(_ sender: UIBarButtonItem) {
         performSegue(withIdentifier: "newMessageSegue", sender: self)
     }
     
-    //MARK: - table view data delegate
     override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let menu = menuAction(at: indexPath)
         let delete = deleteAction(at: indexPath)
@@ -113,16 +107,17 @@ class ChatsTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         performSegue(withIdentifier: "openChatSegue", sender: nil)
-        
     }
     
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        
-        if segue.identifier == "openChatSegue" {
-            let vc = segue.destination as! ChatCollectionView
-            vc.receiverID = "receiver id"
-        } else if segue.identifier == "newChatSegue" {
-            segue.destination as! NewMessageTableViewController
-        }
-    }
+//    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+//        if segue.identifier == "openChatSegue" {
+//            //let vc = segue.destination as! ChatCollectionView
+//            //vc.receiverID = "receiver id"
+//        } else if segue.identifier == "newMessageSegue" {
+//            segue.destination as! NewMessageTableViewController
+//        } else {
+//            print()
+//            print("no segue available")
+//        }
+//    }
 }

@@ -11,6 +11,7 @@ import Firebase
 
 class ChatCollectionView: UICollectionViewController {
     
+    @IBOutlet weak var leftBarButton: UIBarButtonItem!
     @IBOutlet weak var contentView: UIView!
     var isFromNewMessage: Bool!
     var isGoingBack: Bool = true
@@ -47,13 +48,16 @@ class ChatCollectionView: UICollectionViewController {
 
     override func viewWillAppear(_ animated: Bool) {
         if isFromNewMessage == true {
-            print("Came from New Message view")
+            self.navigationItem.setHidesBackButton(true, animated: true)
+        } else {
+            self.navigationItem.setHidesBackButton(true, animated: true)
+            //self.navigationItem.leftBarButtonItem = nil
         }
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         setupNavigationController()
         setupBottomMessageView()
         setupMessageTextField()
@@ -158,13 +162,16 @@ class ChatCollectionView: UICollectionViewController {
     
     override func viewWillDisappear(_ animated: Bool) {
         if isFromNewMessage == true {
-            if isGoingBack == true {
-                print(1234)
-                dismiss(animated: true) {
-                    self.dismiss(animated: true, completion: nil)
-                }
-            }
+            print("Need to go to chats view")
+            self.navigationController?.navigationController?.dismiss(animated: true, completion: nil)
+        } else {
+            print("Go to chats view")
+            //dismiss(animated: true, completion: nil)
         }
+    }
+    
+    @IBAction func dismissView(_ sender: Any) {
+        navigationController?.popToRootViewController(animated: true)
     }
 }
 

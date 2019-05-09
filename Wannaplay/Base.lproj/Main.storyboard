@@ -55,19 +55,19 @@
                                                     <state key="normal" image="star solid black"/>
                                                 </button>
                                                 <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2TY-HE-c91">
-                                                    <rect key="frame" x="18" y="195" width="340" height="30"/>
+                                                    <rect key="frame" x="18" y="203.5" width="340" height="21.5"/>
                                                     <subviews>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Cà Rossa" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5M6-u1-JaO">
-                                                            <rect key="frame" x="0.0" y="0.0" width="156" height="30"/>
+                                                            <rect key="frame" x="0.0" y="0.0" width="156" height="21.5"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                                             <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="basketball white" translatesAutoresizingMaskIntoConstraints="NO" id="rnE-fs-P4n">
-                                                            <rect key="frame" x="156" y="0.0" width="28" height="30"/>
+                                                            <rect key="frame" x="156" y="0.0" width="28" height="21.5"/>
                                                         </imageView>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="San Lazzaro" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vpm-x2-rwE">
-                                                            <rect key="frame" x="184" y="0.0" width="156" height="30"/>
+                                                            <rect key="frame" x="184" y="0.0" width="156" height="21.5"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                                             <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                             <nil key="highlightedColor"/>
@@ -704,19 +704,19 @@
                         <barButtonItem key="rightBarButtonItem" systemItem="compose" id="lb0-1U-y1B">
                             <connections>
                                 <action selector="newMessageTapped:" destination="wL0-hN-lrG" id="mln-Zy-1lY"/>
+                                <segue destination="t2k-KM-KUz" kind="show" id="dM1-he-oHa"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
                     <connections>
                         <outlet property="composeBarButton" destination="lb0-1U-y1B" id="JQr-Ml-yMb"/>
                         <segue destination="aKY-UK-56n" kind="show" identifier="notificationSegue" id="SVb-aZ-qis"/>
-                        <segue destination="b75-DA-eLu" kind="presentation" identifier="newMessageSegue" id="VTY-LN-0Ru"/>
-                        <segue destination="K83-l0-yHV" kind="show" identifier="openChatSegue" id="zaf-0h-Vya"/>
+                        <segue destination="K83-l0-yHV" kind="show" identifier="openChatSegue" id="dKG-CQ-tiP"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="jC1-bC-deq" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1841" y="1833"/>
+            <point key="canvasLocation" x="1846" y="1552"/>
         </scene>
         <!--Chat-->
         <scene sceneID="8zD-tF-vbQ">
@@ -755,14 +755,22 @@
                             <outlet property="delegate" destination="K83-l0-yHV" id="iNz-Dd-TsT"/>
                         </connections>
                     </collectionView>
-                    <navigationItem key="navigationItem" id="nf7-V1-WD0"/>
+                    <navigationItem key="navigationItem" id="nf7-V1-WD0">
+                        <barButtonItem key="backBarButtonItem" title=" " id="Ztw-p0-wUK"/>
+                        <barButtonItem key="leftBarButtonItem" title="Item" image="left arrow" id="jee-RO-Xrg">
+                            <connections>
+                                <action selector="dismissView:" destination="K83-l0-yHV" id="4OO-cL-ZO5"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="contentView" destination="DYg-xP-5va" id="9ll-eq-JZs"/>
+                        <outlet property="leftBarButton" destination="jee-RO-Xrg" id="eeB-vv-UP6"/>
                     </connections>
                 </collectionViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="zM2-BU-fbQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2612" y="2194"/>
+            <point key="canvasLocation" x="3409" y="1552"/>
         </scene>
         <!--New Message-->
         <scene sceneID="t33-pH-HdD">
@@ -839,11 +847,12 @@
                     </navigationItem>
                     <connections>
                         <outlet property="cancelBarButton" destination="Rlw-j0-3vo" id="Xkr-Pf-A1o"/>
+                        <segue destination="K83-l0-yHV" kind="show" identifier="openChatSegue" id="KXn-ni-tdg"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Pje-Hu-rUk" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3409" y="1505"/>
+            <point key="canvasLocation" x="2612" y="1552"/>
         </scene>
         <!--Settings-->
         <scene sceneID="iI7-Q6-Oim">
@@ -1220,7 +1229,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Rps-WX-xce" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1841" y="2887"/>
+            <point key="canvasLocation" x="1841" y="2277"/>
         </scene>
         <!--Edit Profile-->
         <scene sceneID="Bxt-bt-41X">
@@ -1514,7 +1523,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="A3I-9d-3K2" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3410" y="2887"/>
+            <point key="canvasLocation" x="3409" y="2277"/>
         </scene>
         <!--loginView-->
         <scene sceneID="5Ux-ZU-pqz">
@@ -1976,7 +1985,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Cc1-ZS-p4o" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1048" y="1833"/>
+            <point key="canvasLocation" x="1048" y="1552"/>
         </scene>
         <!--QR Code Scanner-->
         <scene sceneID="w64-NR-kac">
@@ -2080,7 +2089,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="YAx-cL-yEI" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1048" y="2887"/>
+            <point key="canvasLocation" x="1048" y="2277"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="awW-P7-QdO">
@@ -2143,7 +2152,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ZtW-3r-VQP" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1841" y="3738"/>
+            <point key="canvasLocation" x="1841" y="3013"/>
         </scene>
         <!--Profile Test View Controller-->
         <scene sceneID="x7a-Mw-viV">
@@ -2200,7 +2209,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="5uk-UI-aRk" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2612" y="2887"/>
+            <point key="canvasLocation" x="2612" y="2277"/>
         </scene>
         <!--News-->
         <scene sceneID="d0N-wO-mR3">
@@ -2772,36 +2781,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="BlV-Sc-rMl" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1048" y="3738"/>
-        </scene>
-        <!--Navigation Controller-->
-        <scene sceneID="Ukl-5d-QYO">
-            <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="b75-DA-eLu" sceneMemberID="viewController">
-                    <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="XJc-Ky-atN">
-                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <color key="barTintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <textAttributes key="titleTextAttributes">
-                            <fontDescription key="fontDescription" type="system" pointSize="20"/>
-                            <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        </textAttributes>
-                        <textAttributes key="largeTitleTextAttributes">
-                            <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="40"/>
-                            <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        </textAttributes>
-                    </navigationBar>
-                    <nil name="viewControllers"/>
-                    <connections>
-                        <segue destination="t2k-KM-KUz" kind="relationship" relationship="rootViewController" id="37x-Oq-1nX"/>
-                    </connections>
-                </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="amV-YX-Ngi" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="2611.594202898551" y="1504.6875"/>
+            <point key="canvasLocation" x="1048" y="3013"/>
         </scene>
     </scenes>
     <resources>
@@ -2816,6 +2796,7 @@
         <image name="facebook white border" width="50" height="50"/>
         <image name="icons8-route-30" width="30" height="30"/>
         <image name="inbox" width="25" height="25"/>
+        <image name="left arrow" width="36" height="36"/>
         <image name="left arrow black" width="30" height="30"/>
         <image name="location rounded" width="30" height="30"/>
         <image name="megaphone" width="30" height="30"/>
@@ -2832,7 +2813,8 @@
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="SVb-aZ-qis"/>
-        <segue reference="8vY-ZJ-Rgl"/>
+        <segue reference="yqA-2c-zS9"/>
+        <segue reference="KXn-ni-tdg"/>
         <segue reference="PNK-qj-mfr"/>
     </inferredMetricsTieBreakers>
 </document>
