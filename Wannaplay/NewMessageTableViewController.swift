@@ -20,7 +20,6 @@ class NewMessageTableViewController: UITableViewController {
 
     @IBOutlet weak var cancelBarButton: UIBarButtonItem!
     private let cellID = "reusableCell"
-    private var friendsID = [String]()
     private var friendsData = [User]()
     private var selectedUserIndex: Int!
     var isComingBackFromNewMessage: Bool!
@@ -80,16 +79,17 @@ class NewMessageTableViewController: UITableViewController {
     private func fetchFriendID() {
         guard let currentUserID = Auth.auth().currentUser?.uid else { return }
         let ref = Database.database().reference()
+        var friendsID = [String]()
         
         ref.child("users").child(currentUserID).child("friendsList").observeSingleEvent(of: .value, with: { (snapshot) in
             
             for child in snapshot.children.allObjects as! [DataSnapshot] {
                 let snap = child
                 let friendID = snap.value!
-                self.friendsID.append(friendID as! String)
+                friendsID.append(friendID as! String)
             }
             
-            for friendID in self.friendsID {
+            for friendID in friendsID {
                 self.fetchFriendData(userID: friendID)
             }
 
@@ -135,7 +135,7 @@ class NewMessageTableViewController: UITableViewController {
         return 1
     }
     
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {        
         return friendsData.count
     }
     
@@ -156,24 +156,21 @@ class NewMessageTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         selectedUserIndex = indexPath.row
-        performSegue(withIdentifier: "openChatSegue", sender: self)
-    }
-    
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        
-        if segue.identifier == "openChatSegue" {
-            let vc = segue.destination as! ChatCollectionView
-            vc.isFromNewMessage = true
-            
-            vc.receiverID = self.friendsData[selectedUserIndex].id
-            vc.receiverName = self.friendsData[selectedUserIndex].name
-            vc.receiverLastname = self.friendsData[selectedUserIndex].lastname
-        }
+        performSegue(withIdentifier: "openNewChatSegue", sender: self)
     }
     
     @IBAction func cancelButtonTapped(_ sender: UIBarButtonItem) {
         navigationController?.popToRootViewController(animated: true)
     }
     
-    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        
+        if segue.identifier == "openNewChatSegue" {
+            let vc = segue.destination as! ChatTableViewController
+            vc.isNewChat = true
+            vc.recipientID = self.friendsData[selectedUserIndex].id
+            vc.recipientName = self.friendsData[selectedUserIndex].name
+            vc.recipientLastname = self.friendsData[selectedUserIndex].lastname
+        }
+    }
 }

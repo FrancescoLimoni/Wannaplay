@@ -9,15 +9,14 @@
 import UIKit
 import Firebase
 
-class ChatCollectionView: UICollectionViewController {
+class ChatTableViewController: UITableViewController {
     
     @IBOutlet weak var leftBarButton: UIBarButtonItem!
-    @IBOutlet weak var contentView: UIView!
-    var isFromNewMessage: Bool!
-    var isGoingBack: Bool = true
-    var receiverID: String?
-    var receiverName: String?
-    var receiverLastname: String?
+    var isNewChat: Bool!
+    var recipientID: String?
+    var recipientName: String?
+    var recipientLastname: String?
+    private let currentUser = Auth.auth().currentUser?.uid
     private let messageTextField: UITextField = {
         let messageTextField = UITextField()
         messageTextField.placeholder = "Enter a message..."
@@ -42,12 +41,15 @@ class ChatCollectionView: UICollectionViewController {
         button.setTitleColor(.black, for: .normal)
         button.setImage(UIImage(named:"send"), for: .normal)
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.addTarget(self, action: #selector(handleMesssageSend), for: .touchUpInside)
+        button.addTarget(self, action: #selector(pushMessage), for: .touchUpInside)
         return button
     }()
+    private var chatsID = [String]()
+    private var messages = [Message]()
+    private let cellID = "reusableCell"
 
     override func viewWillAppear(_ animated: Bool) {
-        if isFromNewMessage == true {
+        if isNewChat == true {
             self.navigationItem.setHidesBackButton(true, animated: true)
         } else {
             self.navigationItem.setHidesBackButton(true, animated: true)
@@ -77,7 +79,7 @@ class ChatCollectionView: UICollectionViewController {
         let bottomImage = UIImage()
         
         
-        nameLabel.text = (receiverName ?? "Name") + " " + (receiverLastname ?? "Lastname")
+        nameLabel.text = (recipientName ?? "Name") + " " + (recipientLastname ?? "Lastname")
         nameLabel.translatesAutoresizingMaskIntoConstraints = false
         userImage.translatesAutoresizingMaskIntoConstraints = false
         contentView.translatesAutoresizingMaskIntoConstraints = false
@@ -143,39 +145,114 @@ class ChatCollectionView: UICollectionViewController {
         ])
     }
     
-    @objc func handleMesssageSend() {
-        print(messageTextField.text ?? "unknown")
+    private func keepTrackOfChatID(completion: @escaping (String) -> ()) {
+        let ref = Database.database().reference()
+        
+        ref.child("messages").observeSingleEvent(of: .childAdded, with: { (snapshot) in
+            completion(snapshot.key)
+        }, withCancel: nil)
+    }
+    
+    private func retreiveMessage() {
+        let ref = Database.database().reference().child("messages")
+        
+        ref.observe(.childAdded, with: { (snapshot) in
+            if let data = snapshot.value as? [String:AnyObject] {
+                let message = Message()
+                let recipientID = data["recipientID"]
+                let senderID = data["senderID"]
+                let date = data["date"]
+                let text = data["text"]
+                
+                message.recipientID = (recipientID as! String)
+                message.senderID = (senderID as! String)
+                message.date = (date as! String)
+                message.text = (text as! String)
+                self.messages.append(message)
+                
+                DispatchQueue.main.async {
+                    self.tableView.reloadData()
+                }
+            }
+            
+        }, withCancel: nil)
+        
+    }
+    
+    @objc private func pushMessage() {
+        let ref = Database.database().reference()
+        let date = Date()
+        let dateFormatter = DateFormatter()
+        let stringDate: String!
+        let senderID: String = Auth.auth().currentUser!.uid
+        let text: String = messageTextField.text ?? "unknonw"
+        
+        dateFormatter.dateFormat = "dd-MM-yyyy hh:mm:ss a"
+        stringDate = dateFormatter.string(from: date)
+        
+        let dictionary = ["senderID":senderID, "recipientID":recipientID!, "date": stringDate!, "text": text] as [String : Any]
+        var chatID: String!
+        
+        if isNewChat == true {
+            ref.child("messages").childByAutoId().childByAutoId().setValue(dictionary)
+            keepTrackOfChatID { (result) in
+                chatID = result
+                self.chatsID.append(chatID)
+                print("chatID.first inside:", self.chatsID.first)
+            }
+            print("chatID.first in/out: ", self.chatsID.first)
+        }else {
+            
+        }
+        
+        print("array.first outside = \(self.chatsID.first) ")
+        clearTextField()
+        //retreiveMessage()
+    }
+    
+    func clearTextField() {
         messageTextField.text = ""
         sendButton.tintColor = .darkGray
         sendButton.isEnabled = false
     }
     
-    @objc func handleChangeInText() {
-        if messageTextField.text?.isEmpty == true || messageTextField.text == "" {
-            sendButton.tintColor = .darkGray
-            sendButton.isEnabled = false
-        } else {
-            sendButton.tintColor = .black
-            sendButton.isEnabled = true
-        }
+    @objc private func handleChangeInText() {
+    if messageTextField.text?.isEmpty == true || messageTextField.text == "" {
+        sendButton.tintColor = .darkGray
+        sendButton.isEnabled = false
+    } else {
+        sendButton.tintColor = .black
+        sendButton.isEnabled = true
     }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        if isFromNewMessage == true {
-            print("Need to go to chats view")
-            self.navigationController?.navigationController?.dismiss(animated: true, completion: nil)
-        } else {
-            print("Go to chats view")
-            //dismiss(animated: true, completion: nil)
-        }
-    }
+}
     
     @IBAction func dismissView(_ sender: Any) {
         navigationController?.popToRootViewController(animated: true)
     }
+    
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return messages.count
+    }
+    
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
+        let cell = tableView.dequeueReusableCell(withIdentifier: cellID)
+        let message = messages[indexPath.row]
+        
+        cell?.textLabel!.text = message.text
+        //cell?.detailTextLabel!.text = message.recipientID
+        
+        return cell!
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        if isNewChat == true {
+            self.navigationController?.navigationController?.dismiss(animated: true, completion: nil)
+        }
+    }
 }
 
-extension ChatCollectionView: UITextFieldDelegate {
+extension ChatTableViewController: UITextFieldDelegate {
     
     func setupMessageTextField() {
         messageTextField.delegate = self

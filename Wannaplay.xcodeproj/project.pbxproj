@@ -31,13 +31,15 @@
 		AC7CB78F226A542E00E1C021 /* Onboarding.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AC7CB78E226A542E00E1C021 /* Onboarding.storyboard */; };
 		AC80A7432274CBB800DDF77E /* ChatsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC80A7422274CBB800DDF77E /* ChatsTableViewController.swift */; };
 		AC80A74522751A2000DDF77E /* UserProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC80A74422751A2000DDF77E /* UserProfileViewController.swift */; };
-		AC80A74722754C0000DDF77E /* ChatCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC80A74622754C0000DDF77E /* ChatCollectionView.swift */; };
+		AC80A74722754C0000DDF77E /* ChatTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC80A74622754C0000DDF77E /* ChatTableViewController.swift */; };
 		AC8ABADF226D0C390078F84A /* PlaygroundViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC8ABADE226D0C390078F84A /* PlaygroundViewController.swift */; };
+		AC98775D2287453700A0E817 /* NotificationTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC98775C2287453700A0E817 /* NotificationTableViewController.swift */; };
 		ACA4B1EF227F938F008556E0 /* NewMessageTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACA4B1EE227F938F008556E0 /* NewMessageTableViewController.swift */; };
 		ACA4B1F4227F9997008556E0 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACA4B1F3227F9997008556E0 /* User.swift */; };
 		ACAF82C3227C817E00276B34 /* GradientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACAF82C2227C817E00276B34 /* GradientView.swift */; };
 		ACAF82EA227CCDBC00276B34 /* FollowButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACAF82E9227CCDBC00276B34 /* FollowButton.swift */; };
 		ACB3E8CA2273831C0030020D /* DayCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACB3E8C92273831C0030020D /* DayCollectionViewCell.swift */; };
+		ACDE7E0E2285246F00662B40 /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACDE7E0D2285246F00662B40 /* Message.swift */; };
 		ACE1DF1B2273F195000C8383 /* NewsFeedTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACE1DF1A2273F195000C8383 /* NewsFeedTableViewController.swift */; };
 		E31896C3F3DEA827867682A6 /* Pods_Wannaplay.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7C77CD065F3BD9130EC3CDB8 /* Pods_Wannaplay.framework */; };
 /* End PBXBuildFile section */
@@ -72,13 +74,15 @@
 		AC7CB78E226A542E00E1C021 /* Onboarding.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Onboarding.storyboard; sourceTree = "<group>"; };
 		AC80A7422274CBB800DDF77E /* ChatsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatsTableViewController.swift; sourceTree = "<group>"; };
 		AC80A74422751A2000DDF77E /* UserProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileViewController.swift; sourceTree = "<group>"; };
-		AC80A74622754C0000DDF77E /* ChatCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ChatCollectionView.swift; path = ../ChatCollectionView.swift; sourceTree = "<group>"; };
+		AC80A74622754C0000DDF77E /* ChatTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ChatTableViewController.swift; path = ../ChatTableViewController.swift; sourceTree = "<group>"; };
 		AC8ABADE226D0C390078F84A /* PlaygroundViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaygroundViewController.swift; sourceTree = "<group>"; };
+		AC98775C2287453700A0E817 /* NotificationTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationTableViewController.swift; sourceTree = "<group>"; };
 		ACA4B1EE227F938F008556E0 /* NewMessageTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = NewMessageTableViewController.swift; path = ../NewMessageTableViewController.swift; sourceTree = "<group>"; };
 		ACA4B1F3227F9997008556E0 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		ACAF82C2227C817E00276B34 /* GradientView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientView.swift; sourceTree = "<group>"; };
 		ACAF82E9227CCDBC00276B34 /* FollowButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowButton.swift; sourceTree = "<group>"; };
 		ACB3E8C92273831C0030020D /* DayCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DayCollectionViewCell.swift; sourceTree = "<group>"; };
+		ACDE7E0D2285246F00662B40 /* Message.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
 		ACE1DF1A2273F195000C8383 /* NewsFeedTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsFeedTableViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -166,6 +170,7 @@
 				AC7CB76B226A496300E1C021 /* LaunchScreen.storyboard */,
 				AC7CB76E226A496300E1C021 /* Info.plist */,
 				AC349CCA226A69730070DB9C /* GoogleService-Info.plist */,
+				AC98775C2287453700A0E817 /* NotificationTableViewController.swift */,
 			);
 			path = Wannaplay;
 			sourceTree = "<group>";
@@ -186,7 +191,7 @@
 			children = (
 				AC80A7422274CBB800DDF77E /* ChatsTableViewController.swift */,
 				ACA4B1EE227F938F008556E0 /* NewMessageTableViewController.swift */,
-				AC80A74622754C0000DDF77E /* ChatCollectionView.swift */,
+				AC80A74622754C0000DDF77E /* ChatTableViewController.swift */,
 			);
 			path = "Chat section";
 			sourceTree = "<group>";
@@ -204,6 +209,7 @@
 			isa = PBXGroup;
 			children = (
 				ACA4B1F3227F9997008556E0 /* User.swift */,
+				ACDE7E0D2285246F00662B40 /* Message.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -358,6 +364,7 @@
 			files = (
 				ACA4B1F4227F9997008556E0 /* User.swift in Sources */,
 				AC64C917227A24A5007CA893 /* ProfileTestViewController.swift in Sources */,
+				AC98775D2287453700A0E817 /* NotificationTableViewController.swift in Sources */,
 				ACA4B1EF227F938F008556E0 /* NewMessageTableViewController.swift in Sources */,
 				ACAF82C3227C817E00276B34 /* GradientView.swift in Sources */,
 				AC7CB784226A531D00E1C021 /* LoginViewController.swift in Sources */,
@@ -370,13 +377,14 @@
 				AC7CB78D226A540E00E1C021 /* WalkthroughViewController.swift in Sources */,
 				AC64C91B227A3C85007CA893 /* ProfileInfoSubViewController.swift in Sources */,
 				AC7CB789226A537C00E1C021 /* WalkthroughContentViewController.swift in Sources */,
-				AC80A74722754C0000DDF77E /* ChatCollectionView.swift in Sources */,
+				AC80A74722754C0000DDF77E /* ChatTableViewController.swift in Sources */,
 				AC349CCF226B9F310070DB9C /* FriendsCollectionViewCell.swift in Sources */,
 				AC7CB78B226A53E900E1C021 /* WalkthroughPageViewController.swift in Sources */,
 				AC7CB77B226A524700E1C021 /* ProfileViewController.swift in Sources */,
 				AC7CB781226A52D500E1C021 /* EditProfileTableViewController.swift in Sources */,
 				AC7CB775226A51C300E1C021 /* HomeViewController.swift in Sources */,
 				ACB3E8CA2273831C0030020D /* DayCollectionViewCell.swift in Sources */,
+				ACDE7E0E2285246F00662B40 /* Message.swift in Sources */,
 				AC7CB786226A533100E1C021 /* JoinViewController.swift in Sources */,
 				ACAF82EA227CCDBC00276B34 /* FollowButton.swift in Sources */,
 				AC349CCD226A8E080070DB9C /* QRCodeViewController.swift in Sources */,
