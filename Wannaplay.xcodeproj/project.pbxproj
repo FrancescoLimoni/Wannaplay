@@ -10,6 +10,7 @@
 		AC349CCB226A69730070DB9C /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = AC349CCA226A69730070DB9C /* GoogleService-Info.plist */; };
 		AC349CCD226A8E080070DB9C /* QRCodeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC349CCC226A8E080070DB9C /* QRCodeViewController.swift */; };
 		AC349CCF226B9F310070DB9C /* FriendsCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC349CCE226B9F310070DB9C /* FriendsCollectionViewCell.swift */; };
+		AC52CEF7228793B600DC51AE /* Chat.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC52CEF6228793B600DC51AE /* Chat.swift */; };
 		AC64C917227A24A5007CA893 /* ProfileTestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC64C916227A24A5007CA893 /* ProfileTestViewController.swift */; };
 		AC64C91B227A3C85007CA893 /* ProfileInfoSubViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC64C91A227A3C85007CA893 /* ProfileInfoSubViewController.swift */; };
 		AC64C91F227A4A66007CA893 /* infoSubView.xib in Resources */ = {isa = PBXBuildFile; fileRef = AC64C91E227A4A66007CA893 /* infoSubView.xib */; };
@@ -18,7 +19,6 @@
 		AC7CB76A226A496300E1C021 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AC7CB769226A496300E1C021 /* Assets.xcassets */; };
 		AC7CB76D226A496300E1C021 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AC7CB76B226A496300E1C021 /* LaunchScreen.storyboard */; };
 		AC7CB775226A51C300E1C021 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC7CB774226A51C300E1C021 /* HomeViewController.swift */; };
-		AC7CB777226A520100E1C021 /* HomeCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC7CB776226A520100E1C021 /* HomeCollectionViewCell.swift */; };
 		AC7CB77B226A524700E1C021 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC7CB77A226A524700E1C021 /* ProfileViewController.swift */; };
 		AC7CB77D226A526B00E1C021 /* RequestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC7CB77C226A526B00E1C021 /* RequestViewController.swift */; };
 		AC7CB77F226A52B000E1C021 /* SettingTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC7CB77E226A52B000E1C021 /* SettingTableViewController.swift */; };
@@ -41,6 +41,7 @@
 		ACB3E8CA2273831C0030020D /* DayCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACB3E8C92273831C0030020D /* DayCollectionViewCell.swift */; };
 		ACDE7E0E2285246F00662B40 /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACDE7E0D2285246F00662B40 /* Message.swift */; };
 		ACE1DF1B2273F195000C8383 /* NewsFeedTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACE1DF1A2273F195000C8383 /* NewsFeedTableViewController.swift */; };
+		ACF32E05228884590051C2EC /* Playground.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACF32E04228884590051C2EC /* Playground.swift */; };
 		E31896C3F3DEA827867682A6 /* Pods_Wannaplay.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7C77CD065F3BD9130EC3CDB8 /* Pods_Wannaplay.framework */; };
 /* End PBXBuildFile section */
 
@@ -51,6 +52,7 @@
 		AC349CCA226A69730070DB9C /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		AC349CCC226A8E080070DB9C /* QRCodeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRCodeViewController.swift; sourceTree = "<group>"; };
 		AC349CCE226B9F310070DB9C /* FriendsCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendsCollectionViewCell.swift; sourceTree = "<group>"; };
+		AC52CEF6228793B600DC51AE /* Chat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Chat.swift; sourceTree = "<group>"; };
 		AC64C916227A24A5007CA893 /* ProfileTestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileTestViewController.swift; sourceTree = "<group>"; };
 		AC64C91A227A3C85007CA893 /* ProfileInfoSubViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileInfoSubViewController.swift; sourceTree = "<group>"; };
 		AC64C91E227A4A66007CA893 /* infoSubView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = infoSubView.xib; sourceTree = "<group>"; };
@@ -61,7 +63,6 @@
 		AC7CB76C226A496300E1C021 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		AC7CB76E226A496300E1C021 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		AC7CB774226A51C300E1C021 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
-		AC7CB776226A520100E1C021 /* HomeCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeCollectionViewCell.swift; sourceTree = "<group>"; };
 		AC7CB77A226A524700E1C021 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		AC7CB77C226A526B00E1C021 /* RequestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestViewController.swift; sourceTree = "<group>"; };
 		AC7CB77E226A52B000E1C021 /* SettingTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingTableViewController.swift; sourceTree = "<group>"; };
@@ -84,6 +85,7 @@
 		ACB3E8C92273831C0030020D /* DayCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DayCollectionViewCell.swift; sourceTree = "<group>"; };
 		ACDE7E0D2285246F00662B40 /* Message.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
 		ACE1DF1A2273F195000C8383 /* NewsFeedTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsFeedTableViewController.swift; sourceTree = "<group>"; };
+		ACF32E04228884590051C2EC /* Playground.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Playground.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -155,7 +157,6 @@
 				AC7CB762226A495B00E1C021 /* AppDelegate.swift */,
 				AC349CCC226A8E080070DB9C /* QRCodeViewController.swift */,
 				AC7CB774226A51C300E1C021 /* HomeViewController.swift */,
-				AC7CB776226A520100E1C021 /* HomeCollectionViewCell.swift */,
 				AC8ABADE226D0C390078F84A /* PlaygroundViewController.swift */,
 				AC7CB77C226A526B00E1C021 /* RequestViewController.swift */,
 				ACB3E8C92273831C0030020D /* DayCollectionViewCell.swift */,
@@ -210,6 +211,8 @@
 			children = (
 				ACA4B1F3227F9997008556E0 /* User.swift */,
 				ACDE7E0D2285246F00662B40 /* Message.swift */,
+				AC52CEF6228793B600DC51AE /* Chat.swift */,
+				ACF32E04228884590051C2EC /* Playground.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -376,6 +379,7 @@
 				AC8ABADF226D0C390078F84A /* PlaygroundViewController.swift in Sources */,
 				AC7CB78D226A540E00E1C021 /* WalkthroughViewController.swift in Sources */,
 				AC64C91B227A3C85007CA893 /* ProfileInfoSubViewController.swift in Sources */,
+				AC52CEF7228793B600DC51AE /* Chat.swift in Sources */,
 				AC7CB789226A537C00E1C021 /* WalkthroughContentViewController.swift in Sources */,
 				AC80A74722754C0000DDF77E /* ChatTableViewController.swift in Sources */,
 				AC349CCF226B9F310070DB9C /* FriendsCollectionViewCell.swift in Sources */,
@@ -387,8 +391,8 @@
 				ACDE7E0E2285246F00662B40 /* Message.swift in Sources */,
 				AC7CB786226A533100E1C021 /* JoinViewController.swift in Sources */,
 				ACAF82EA227CCDBC00276B34 /* FollowButton.swift in Sources */,
+				ACF32E05228884590051C2EC /* Playground.swift in Sources */,
 				AC349CCD226A8E080070DB9C /* QRCodeViewController.swift in Sources */,
-				AC7CB777226A520100E1C021 /* HomeCollectionViewCell.swift in Sources */,
 				AC80A7432274CBB800DDF77E /* ChatsTableViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

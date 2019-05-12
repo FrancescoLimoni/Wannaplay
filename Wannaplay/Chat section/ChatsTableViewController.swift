@@ -22,12 +22,11 @@ class ChatsTableViewController: UITableViewController {
     @IBOutlet weak var composeBarButton: UIBarButtonItem!
     
     private let cellID = "cellReusable"
-    private var chatsList = [String]()
+    private var chats = [String]()
     private var selectedUserIndex: Int!
-    private var messages = [Message]()
     
     override func viewWillAppear(_ animated: Bool) {
-        //retreiveMessages()
+        retrieveChats()
     }
     
     override func viewDidLoad() {
@@ -111,28 +110,13 @@ class ChatsTableViewController: UITableViewController {
         return action
     }
     
-    private func retreiveMessages() {
+    private func retrieveChats() {
         let ref = Database.database().reference().child("messages")
-
+        
         ref.observe(.childAdded, with: { (snapshot) in
-            if let data = snapshot.value as? [String:AnyObject] {
-                let message = Message()
-                let recipientID = data["recipientID"]
-                let senderID = data["senderID"]
-                let date = data["date"]
-                let text = data["text"]
-
-                message.recipientID = (recipientID as! String)
-                message.senderID = (senderID as! String)
-                message.date = (date as! String)
-                message.text = (text as! String)
-                self.messages.append(message)
-
-                DispatchQueue.main.async {
-                    self.tableView.reloadData()
-                }
-            }
-
+            print()
+            print(snapshot.key)
+            print()
         }, withCancel: nil)
     }
     
@@ -153,7 +137,7 @@ class ChatsTableViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if messages.isEmpty {
+        if chats.isEmpty {
             setupEmptyTableView()
             return 0
         } else {
@@ -161,7 +145,7 @@ class ChatsTableViewController: UITableViewController {
             tableView.separatorStyle = .singleLine
         }
         
-        return chatsList.count
+        return chats.count
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {

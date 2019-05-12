@@ -11,12 +11,13 @@ import MapKit
 import CoreLocation
 import FirebaseDatabase
 
-struct Playground {
-    var name:String
-    var address: String
-    var latitude: Double
-    var longitude: Double
-    var zipcode: Int
+
+class HomeCollectionViewCell: UICollectionViewCell {
+    
+    @IBOutlet weak var image: UIImageView!
+    @IBOutlet weak var nameLabel: UILabel!
+    @IBOutlet weak var locationLabel: UILabel!
+    @IBOutlet weak var starButton: UIButton!
 }
 
 class HomeViewController: UIViewController {
@@ -37,8 +38,9 @@ class HomeViewController: UIViewController {
     private var state: String!
     private var region: String!
     private var city: String!
-    private var playgroundNames: [String] = []
-    private var playgroundsNear: [Playground] = []
+    private var selectedIndex: Int!
+    private var fieldsAround = [Playground]()
+    let dispatchGroup = DispatchGroup()
     
     override func viewDidAppear(_ animated: Bool) {
         
@@ -62,26 +64,10 @@ class HomeViewController: UIViewController {
             //self.setupSearchController()
             self.checkLocationServices()
             self.previousLocation = self.locationManager.location
-            
-            print()
-            print("address: \(self.nation ?? "unknown"), \(self.state ?? "unknown"), \(self.region ?? "unknown"), \(self.city ?? "unknown")")
-            print()
         }
         
-        fetchPlaygroundName(nation: "italy", state: "emilia romagna", region: "bologna", city: "bologna") { (result) in
-                self.playgroundNames = result
+        fetchPlaygroundName(nation: "italy", state: "emilia romagna", region: "bologna", city: "bologna")
 
-            //print("playgroundNames inside: \(self.playgroundNames)")
-        }
-        
-        for name in playgroundNames {
-            fetchPlaygroundData(nation: "italy", state: "emilia romagna", region: "bologna", city: "bologna", name: name) { (result) in
-                self.playgroundsNear = result
-                print("playgroundsNear inside: \(self.playgroundsNear)")
-            }
-            
-            print("playgroundsNear outside: \(self.playgroundsNear)")
-        }
     }
     
     private func Delegates() {
@@ -246,46 +232,52 @@ class HomeViewController: UIViewController {
                 self?.state = placemark.administrativeArea
                 self?.region = placemark.subAdministrativeArea
                 self?.city = placemark.locality
-                
-//                print()
-//                print("address: \(self?.nation ?? "unknown"), \(self?.state ?? "unknown"), \(self?.region ?? "unknown"), \(self?.city ?? "unknown")")
-//                print()
-                
             }
         }
         
     }
     
-    private func fetchPlaygroundName(nation: String, state: String, region: String, city: String, completion: @escaping ([String]) -> ())  {
-        let dbRef = Database.database().reference()
-        var array = [String]()
+    private func fetchPlaygroundName(nation: String, state: String, region: String, city: String)  {
+        let dbRef = Database.database().reference().child("playgrounds")
         
-        dbRef.child("playgrounds").child(nation).child(state).child(region).child(city).observeSingleEvent(of: .value) { (snapshot) in
+        dbRef.child(nation).child(state).child(region).child(city).observe(.value, with: { (snapshot) in
             for child in snapshot.children.allObjects as! [DataSnapshot] {
-                let snap = child
-                let nameField = snap.key
-                
-                array.append(nameField)
-                completion(array)
+                let name = child.key
+                self.fetchPlaygroundData(nation: "italy", state: "emilia romagna", region: "bologna", city: "bologna", name: name)
             }
-        }
+        }, withCancel: nil)
     }
 
-    func fetchPlaygroundData(nation: String, state: String, region: String, city: String, name: String, completion: @escaping ([Playground]) -> ()) {
-        let dbRef = Database.database().reference()
-        var array: [Playground] = []
+    func fetchPlaygroundData(nation: String, state: String, region: String, city: String, name: String) {
+        let dbRef = Database.database().reference().child("playgrounds")
         
-        dbRef.child("playgrounds").child(nation).child(state).child(region).child(city).child(name).observeSingleEvent(of: .value) { (snapshot) in
-            let data = snapshot.value as? NSDictionary
-            let addressField = data?["address"] as? String ?? "unknown"
-            let latitudeField = data?["latitude"] as? Double ?? 0
-            let longitudeField = data?["longitude"] as? Double ?? 0
-            let zipcodeField = data?["zipcode"] as? Int ?? 0
-            let field = Playground(name: name, address: addressField, latitude: latitudeField, longitude: longitudeField, zipcode: zipcodeField)
-            
-            array.append(field)
-            completion(array)
-        }
+        dbRef.child(nation).child(state).child(region).child(city).child(name).observe(.value, with: { (snapshot) in
+            if let data = snapshot.value as? [String:AnyObject] {
+                let field = Playground()
+                //let fieldID = "" //need to implement a fieldID
+                let addressField = data["address"]
+                let latitudeField = data["latitude"]
+                let longitudeField = data["longitude"]
+                let zipcodeField = data["zipcode"]
+                
+                field.nation = nation.capitalized
+                field.state = state.capitalized
+                field.region = region.capitalized
+                field.city = city.capitalized
+                field.address = (addressField as! String).capitalized
+                field.name = name.capitalized
+                field.latitude = (latitudeField as! Double)
+                field.longitude = (longitudeField as! Double)
+                field.zipcode = (zipcodeField as! Int)
+                
+                self.fieldsAround.append(field)
+                
+                DispatchQueue.main.async {
+                    self.collectionView.reloadData()
+                }
+            }
+        }, withCancel: nil)
+        
         
     }
     
@@ -303,6 +295,32 @@ class HomeViewController: UIViewController {
         }
         
         print("button pressed: \(centerLocationBT.isTouchInside)")
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "playgroundSegue" {
+            let vc = segue.destination as! PlaygroundViewController
+            
+            guard let address = fieldsAround[selectedIndex].address else { return }
+            guard let name = fieldsAround[selectedIndex].name else { return }
+            guard let zipcode = fieldsAround[selectedIndex].zipcode else { return }
+            guard let city = fieldsAround[selectedIndex].city else { return }
+            guard let nation = fieldsAround[selectedIndex].nation else { return }
+            guard let latitude = fieldsAround[selectedIndex].latitude else { return }
+            guard let longitude = fieldsAround[selectedIndex].longitude else { return }
+            
+            
+            //if the data will be presented in the new view it need to be wrapped into dispatch
+            DispatchQueue.main.async {
+                //vc.setupAnnotationOnMap(latitude: latitude, longitude: longitude)
+                vc.nameLabel?.text = name
+                vc.addressLabel?.text = address + ", " + String(zipcode) + ", " + city + ", " + nation
+            }
+            
+            //otherwise can be passed normally
+            vc.latitude = latitude
+            vc.longitude = longitude
+        }
     }
 }
 
@@ -354,20 +372,27 @@ extension HomeViewController: MKMapViewDelegate {
 
 extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UIScrollViewDelegate {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 5
+        return fieldsAround.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cellReusable", for: indexPath) as! HomeCollectionViewCell
         setupCell(cell: cell)
+        let field = fieldsAround[indexPath.row]
+        
+        //cell.image = field.image
+        cell.nameLabel.text = field.name
+        cell.locationLabel.text = field.address
         
         cell.image.layer.cornerRadius = (cell.image.frame.height / 3) * cornerRadius
         cell.image.clipsToBounds = true
         cell.starButton.layer.cornerRadius = cell.starButton.frame.height * cornerRadius
+        
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        selectedIndex = indexPath.row
         performSegue(withIdentifier: "playgroundSegue", sender: self)
     }
     

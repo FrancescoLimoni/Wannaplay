@@ -11,7 +11,8 @@ import Firebase
 
 class ChatTableViewController: UITableViewController {
     
-    @IBOutlet weak var leftBarButton: UIBarButtonItem!
+    @IBOutlet weak var backBarButton: UIBarButtonItem!
+    @IBOutlet weak var infoBarButton: UIBarButtonItem!
     var isNewChat: Bool!
     var recipientID: String?
     var recipientName: String?
@@ -153,29 +154,35 @@ class ChatTableViewController: UITableViewController {
         }, withCancel: nil)
     }
     
-    private func retreiveMessage() {
+    private func retrieveMessages(chatRef: String) {
         let ref = Database.database().reference().child("messages")
         
-        ref.observe(.childAdded, with: { (snapshot) in
+        ref.child(chatRef).observe( .childChanged, with: { (snapshot) in
             if let data = snapshot.value as? [String:AnyObject] {
                 let message = Message()
+                let messageID = snapshot.key
                 let recipientID = data["recipientID"]
                 let senderID = data["senderID"]
                 let date = data["date"]
                 let text = data["text"]
                 
+                print()
+                print("messageID: \(messageID)")
+                print()
+                
+                message.messageID = messageID
                 message.recipientID = (recipientID as! String)
                 message.senderID = (senderID as! String)
                 message.date = (date as! String)
                 message.text = (text as! String)
+                
                 self.messages.append(message)
                 
                 DispatchQueue.main.async {
                     self.tableView.reloadData()
                 }
-            }
-            
-        }, withCancel: nil)
+        }
+       }, withCancel: nil)
         
     }
     
@@ -186,28 +193,28 @@ class ChatTableViewController: UITableViewController {
         let stringDate: String!
         let senderID: String = Auth.auth().currentUser!.uid
         let text: String = messageTextField.text ?? "unknonw"
+        let dispatchGroup = DispatchGroup()
         
         dateFormatter.dateFormat = "dd-MM-yyyy hh:mm:ss a"
         stringDate = dateFormatter.string(from: date)
         
         let dictionary = ["senderID":senderID, "recipientID":recipientID!, "date": stringDate!, "text": text] as [String : Any]
-        var chatID: String!
         
-        if isNewChat == true {
+        if isNewChat {
             ref.child("messages").childByAutoId().childByAutoId().setValue(dictionary)
+            dispatchGroup.enter()
             keepTrackOfChatID { (result) in
-                chatID = result
-                self.chatsID.append(chatID)
-                print("chatID.first inside:", self.chatsID.first)
+                self.chatsID.append(result)
+                self.isNewChat = false
+                self.retrieveMessages(chatRef: self.chatsID.first!)
+                dispatchGroup.leave()
             }
-            print("chatID.first in/out: ", self.chatsID.first)
-        }else {
-            
+        } else {
+            ref.child("messages").child(self.chatsID.first!).childByAutoId().setValue(dictionary)
+                retrieveMessages(chatRef: chatsID.first!)
         }
-        
-        print("array.first outside = \(self.chatsID.first) ")
+    
         clearTextField()
-        //retreiveMessage()
     }
     
     func clearTextField() {
@@ -226,8 +233,20 @@ class ChatTableViewController: UITableViewController {
     }
 }
     
-    @IBAction func dismissView(_ sender: Any) {
+    @IBAction func backBarButtonTapped(_ sender: Any) {
         navigationController?.popToRootViewController(animated: true)
+    }
+    
+    @IBAction func infoBarButtonTapped(_ sender: Any) {
+        let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        let profile = UIAlertAction(title: "View Profile", style: .default, handler: nil)
+        let report = UIAlertAction(title: "Report", style: .destructive, handler: nil)
+        
+        alert.addAction(profile)
+        alert.addAction(report)
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        alert.view.tintColor = .black
+        present(alert, animated: true, completion: nil)
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -235,12 +254,10 @@ class ChatTableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
         let cell = tableView.dequeueReusableCell(withIdentifier: cellID)
         let message = messages[indexPath.row]
         
         cell?.textLabel!.text = message.text
-        //cell?.detailTextLabel!.text = message.recipientID
         
         return cell!
     }
@@ -280,7 +297,6 @@ extension ChatTableViewController: UITextFieldDelegate {
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        //textField.resignFirstResponder()
         return true
     }
     

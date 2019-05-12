@@ -17,16 +17,18 @@ class PlaygroundViewController: UIViewController {
     @IBOutlet weak var backBT: UIButton!
     @IBOutlet weak var moreBT: UIButton!
     @IBOutlet weak var starBT: UIButton!
-    @IBOutlet weak var name: UILabel!
-    @IBOutlet weak var imageView: UIImageView!
+    @IBOutlet weak var nameLabel: UILabel?
+    @IBOutlet weak var imageView: UIImageView?
     @IBOutlet weak var chartView: UIView!
     @IBOutlet weak var featuresView: UIView!
     @IBOutlet weak var addressView: UIView!
     @IBOutlet weak var mapView: MKMapView!
     @IBOutlet weak var directionButton: UIButton!
-    @IBOutlet weak var addressLabel: UILabel!
+    @IBOutlet weak var addressLabel: UILabel?
     @IBOutlet weak var requestBT: UIButton!
-
+    
+    var latitude: Double!
+    var longitude: Double!
     private let cornerRadius: CGFloat = 0.28
     private var isLiked: Bool = false
     var currentTouchPoint = CGPoint(x: 0, y: 0)
@@ -41,16 +43,7 @@ class PlaygroundViewController: UIViewController {
         setupBlurBackground(button: backBT)
         setupBlurBackground(button: moreBT)
         setupBlurBackground(button: starBT)
-        
-        let coordinates = CLLocationCoordinate2D(latitude: 44.489415, longitude: 11.388137)
-        let myAnnotation = MKPointAnnotation()
-        myAnnotation.title = "Cà Rossa"
-        //myAnnotation.subtitle = nil
-        myAnnotation.coordinate = coordinates
-        let span  = MKCoordinateSpan(latitudeDelta: 0.03, longitudeDelta: 0.03)
-        let region = MKCoordinateRegion(center: coordinates, span: span)
-        mapView.addAnnotation(myAnnotation)
-        mapView.setRegion(region, animated: true)
+        setupAnnotationOnMap(latitude: latitude, longitude: longitude)
     }
  
     func setupDelegates() {
@@ -83,7 +76,7 @@ class PlaygroundViewController: UIViewController {
         vibracyEffectView.clipsToBounds = true
         vibracyEffectView.isUserInteractionEnabled = false
         
-        button.addSubview(blurEffectView)
+        //button.insertSubview(blurEffectView, at: 0)
         //blurEffectView.insertSubview(button, at: 0)
         //blurEffectView.bringSubviewToFront(button)
     }
@@ -108,6 +101,18 @@ class PlaygroundViewController: UIViewController {
     func setupStarBTImage() {
         starBT.setImage(#imageLiteral(resourceName: "star solid yellow"), for: .selected)
         starBT.setImage(#imageLiteral(resourceName: "star solid black"), for: .normal)
+    }
+    
+    func setupAnnotationOnMap(latitude: Double, longitude: Double) {
+        guard let name = nameLabel?.text else { return }
+        let myCoordinate = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
+        let myAnnotation = MKPointAnnotation()
+        let mySpan = MKCoordinateSpan(latitudeDelta: 0.03, longitudeDelta: 0.03)
+        let myRegion = MKCoordinateRegion(center: myCoordinate, span: mySpan)
+        
+        myAnnotation.title = name
+        mapView.addAnnotation(myAnnotation)
+        mapView.setRegion(myRegion, animated: true)
     }
     
     override var prefersStatusBarHidden: Bool {
@@ -186,7 +191,7 @@ extension PlaygroundViewController: UIScrollViewDelegate {
             let width = self.view.bounds.width
             let height = 240 - contentY
             
-            imageView.frame = CGRect(x: 0, y: contentY, width: width, height: height)
+            imageView?.frame = CGRect(x: 0, y: contentY, width: width, height: height)
         }
     }
 }

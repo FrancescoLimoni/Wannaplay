@@ -95,10 +95,9 @@
                                         </constraints>
                                         <connections>
                                             <outlet property="image" destination="Ycs-y2-RfV" id="wPw-cp-EaP"/>
-                                            <outlet property="location" destination="vpm-x2-rwE" id="cgf-zQ-FuJ"/>
-                                            <outlet property="name" destination="5M6-u1-JaO" id="3NE-AI-7IA"/>
+                                            <outlet property="locationLabel" destination="vpm-x2-rwE" id="F6w-ki-412"/>
+                                            <outlet property="nameLabel" destination="5M6-u1-JaO" id="g3G-R2-5sx"/>
                                             <outlet property="starButton" destination="STX-l9-4eS" id="gcb-wC-xo0"/>
-                                            <segue destination="JMF-wg-aJ2" kind="show" identifier="playgroundSegue" id="3tg-1u-67e"/>
                                         </connections>
                                     </collectionViewCell>
                                 </cells>
@@ -197,6 +196,7 @@
                         <outlet property="qrCodeBT" destination="xvn-JC-ENN" id="bUR-EO-5y4"/>
                         <outlet property="searchBarView" destination="4gI-Zt-XMm" id="qKh-7P-qKU"/>
                         <outlet property="searchTextField" destination="2rW-Qu-AgA" id="5yD-NS-zf4"/>
+                        <segue destination="JMF-wg-aJ2" kind="show" identifier="playgroundSegue" id="Okg-yD-Cfj"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="6pj-76-bAt" sceneMemberID="firstResponder"/>
@@ -800,7 +800,7 @@
             </objects>
             <point key="canvasLocation" x="2612" y="1552"/>
         </scene>
-        <!--Title-->
+        <!--Chat log-->
         <scene sceneID="OLb-7K-TMm">
             <objects>
                 <tableViewController hidesBottomBarWhenPushed="YES" id="X2E-u7-lPx" customClass="ChatTableViewController" customModule="Wannaplay" customModuleProvider="target" sceneMemberID="viewController">
@@ -823,15 +823,21 @@
                             <outlet property="delegate" destination="X2E-u7-lPx" id="pEB-Bg-ED6"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Title" id="3FH-3a-oq4">
+                    <navigationItem key="navigationItem" title="Chat log" id="3FH-3a-oq4">
                         <barButtonItem key="leftBarButtonItem" title="Item" image="left arrow" id="Egx-6h-ChV">
                             <connections>
-                                <action selector="dismissView:" destination="X2E-u7-lPx" id="j5G-fl-gWv"/>
+                                <action selector="backBarButtonTapped:" destination="X2E-u7-lPx" id="j5G-fl-gWv"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" title="Item" image="info" id="F7N-tE-fvo">
+                            <connections>
+                                <action selector="infoBarButtonTapped:" destination="X2E-u7-lPx" id="aeX-BW-Drq"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
                     <connections>
-                        <outlet property="leftBarButton" destination="Egx-6h-ChV" id="mNT-I5-Guz"/>
+                        <outlet property="backBarButton" destination="Egx-6h-ChV" id="mNT-I5-Guz"/>
+                        <outlet property="infoBarButton" destination="F7N-tE-fvo" id="7Kz-iy-NP6"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="yTm-So-ywQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -2380,7 +2386,7 @@
                                                     <constraint firstAttribute="height" constant="40" id="l9q-hr-q65"/>
                                                 </constraints>
                                                 <color key="tintColor" red="0.98039215690000003" green="0.98039215690000003" blue="0.98039215690000003" alpha="1" colorSpace="calibratedRGB"/>
-                                                <state key="normal" image="left arrow black"/>
+                                                <state key="normal" image="left arrow"/>
                                                 <connections>
                                                     <action selector="backBTTapped:" destination="JMF-wg-aJ2" eventType="touchUpInside" id="z9x-MI-UDs"/>
                                                 </connections>
@@ -2418,9 +2424,47 @@
                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="25" translatesAutoresizingMaskIntoConstraints="NO" id="rD6-aY-tUY">
                                                 <rect key="frame" x="18" y="260" width="378" height="682.5"/>
                                                 <subviews>
-                                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jj5-mc-tYf">
+                                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="JE0-v5-WUF" userLabel="Address View">
                                                         <rect key="frame" x="0.0" y="0.0" width="378" height="211"/>
+                                                        <subviews>
+                                                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" userInteractionEnabled="NO" contentMode="scaleToFill" mapType="mutedStandard" zoomEnabled="NO" scrollEnabled="NO" rotateEnabled="NO" pitchEnabled="NO" showsCompass="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5Nm-K5-GgI">
+                                                                <rect key="frame" x="0.0" y="0.0" width="378" height="166"/>
+                                                            </mapView>
+                                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="T6W-Vb-w5T" userLabel="direction">
+                                                                <rect key="frame" x="8" y="8" width="32" height="32"/>
+                                                                <constraints>
+                                                                    <constraint firstAttribute="height" constant="32" id="K1p-tr-XYT"/>
+                                                                    <constraint firstAttribute="width" constant="32" id="qp0-Te-D5T"/>
+                                                                </constraints>
+                                                                <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                                <state key="normal" image="direction"/>
+                                                                <connections>
+                                                                    <action selector="directionButtonTapped:" destination="JMF-wg-aJ2" eventType="touchUpInside" id="k9q-3W-af8"/>
+                                                                    <action selector="starBTTapped:" destination="JMF-wg-aJ2" eventType="touchUpInside" id="7Fh-ce-6xx"/>
+                                                                </connections>
+                                                            </button>
+                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Viale Felsina 50, 40139 Bologna, Italy" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hvX-fk-Lfv">
+                                                                <rect key="frame" x="8" y="166" width="362" height="45"/>
+                                                                <constraints>
+                                                                    <constraint firstAttribute="height" constant="45" id="G7k-by-MZd"/>
+                                                                </constraints>
+                                                                <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                                                <nil key="textColor"/>
+                                                                <nil key="highlightedColor"/>
+                                                            </label>
+                                                        </subviews>
                                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="trailing" secondItem="hvX-fk-Lfv" secondAttribute="trailing" constant="8" id="8AA-0g-pWo"/>
+                                                            <constraint firstItem="hvX-fk-Lfv" firstAttribute="top" secondItem="5Nm-K5-GgI" secondAttribute="bottom" id="TVj-dq-P9o"/>
+                                                            <constraint firstItem="T6W-Vb-w5T" firstAttribute="top" secondItem="JE0-v5-WUF" secondAttribute="topMargin" id="eh7-Cp-da9"/>
+                                                            <constraint firstItem="5Nm-K5-GgI" firstAttribute="top" secondItem="JE0-v5-WUF" secondAttribute="top" id="f1B-Pw-8uK"/>
+                                                            <constraint firstAttribute="trailing" secondItem="5Nm-K5-GgI" secondAttribute="trailing" id="gLu-PQ-6b9"/>
+                                                            <constraint firstItem="T6W-Vb-w5T" firstAttribute="leading" secondItem="JE0-v5-WUF" secondAttribute="leadingMargin" id="hlo-R3-bKd"/>
+                                                            <constraint firstItem="5Nm-K5-GgI" firstAttribute="leading" secondItem="JE0-v5-WUF" secondAttribute="leading" id="kJ0-N7-rkP"/>
+                                                            <constraint firstAttribute="bottom" secondItem="hvX-fk-Lfv" secondAttribute="bottom" id="nDv-at-L0A"/>
+                                                            <constraint firstItem="hvX-fk-Lfv" firstAttribute="leading" secondItem="JE0-v5-WUF" secondAttribute="leading" constant="8" id="yas-Ny-0vS"/>
+                                                        </constraints>
                                                     </view>
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8fg-nx-Wo1">
                                                         <rect key="frame" x="0.0" y="236" width="378" height="210.5"/>
@@ -2613,46 +2657,9 @@
                                                             <constraint firstItem="HUn-4T-kWC" firstAttribute="leading" secondItem="8fg-nx-Wo1" secondAttribute="leading" constant="10" id="hVk-g7-Ved"/>
                                                         </constraints>
                                                     </view>
-                                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="JE0-v5-WUF" userLabel="Address View">
+                                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jj5-mc-tYf">
                                                         <rect key="frame" x="0.0" y="471.5" width="378" height="211"/>
-                                                        <subviews>
-                                                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="e3p-ZS-8zy">
-                                                                <rect key="frame" x="0.0" y="0.0" width="378" height="211"/>
-                                                                <subviews>
-                                                                    <mapView clipsSubviews="YES" multipleTouchEnabled="YES" userInteractionEnabled="NO" contentMode="scaleToFill" mapType="mutedStandard" zoomEnabled="NO" scrollEnabled="NO" rotateEnabled="NO" pitchEnabled="NO" showsCompass="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5Nm-K5-GgI">
-                                                                        <rect key="frame" x="0.0" y="0.0" width="378" height="157"/>
-                                                                    </mapView>
-                                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Viale Felsina 50, 40139 Bologna, Italy" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hvX-fk-Lfv">
-                                                                        <rect key="frame" x="0.0" y="162" width="378" height="49"/>
-                                                                        <fontDescription key="fontDescription" type="system" pointSize="18"/>
-                                                                        <nil key="textColor"/>
-                                                                        <nil key="highlightedColor"/>
-                                                                    </label>
-                                                                </subviews>
-                                                                <constraints>
-                                                                    <constraint firstItem="hvX-fk-Lfv" firstAttribute="width" secondItem="5Nm-K5-GgI" secondAttribute="width" id="3ZL-12-d0v"/>
-                                                                    <constraint firstItem="hvX-fk-Lfv" firstAttribute="height" secondItem="5Nm-K5-GgI" secondAttribute="height" multiplier="1:3.2" id="Doh-xg-rFf"/>
-                                                                </constraints>
-                                                            </stackView>
-                                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="T6W-Vb-w5T" userLabel="Star Button">
-                                                                <rect key="frame" x="8" y="8" width="16" height="18"/>
-                                                                <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                                <state key="normal" image="icons8-route-30"/>
-                                                                <connections>
-                                                                    <action selector="directionButtonTapped:" destination="JMF-wg-aJ2" eventType="touchUpInside" id="k9q-3W-af8"/>
-                                                                    <action selector="starBTTapped:" destination="JMF-wg-aJ2" eventType="touchUpInside" id="7Fh-ce-6xx"/>
-                                                                </connections>
-                                                            </button>
-                                                        </subviews>
                                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                        <constraints>
-                                                            <constraint firstAttribute="trailing" secondItem="e3p-ZS-8zy" secondAttribute="trailing" id="8bj-E2-Tac"/>
-                                                            <constraint firstItem="e3p-ZS-8zy" firstAttribute="top" secondItem="JE0-v5-WUF" secondAttribute="top" id="CQk-zM-yzu"/>
-                                                            <constraint firstAttribute="bottom" secondItem="e3p-ZS-8zy" secondAttribute="bottom" id="OtV-3Z-ZCk"/>
-                                                            <constraint firstItem="e3p-ZS-8zy" firstAttribute="leading" secondItem="JE0-v5-WUF" secondAttribute="leading" id="Svr-2o-MIq"/>
-                                                            <constraint firstItem="T6W-Vb-w5T" firstAttribute="top" secondItem="JE0-v5-WUF" secondAttribute="topMargin" id="eh7-Cp-da9"/>
-                                                            <constraint firstItem="T6W-Vb-w5T" firstAttribute="leading" secondItem="JE0-v5-WUF" secondAttribute="leadingMargin" id="hlo-R3-bKd"/>
-                                                        </constraints>
                                                     </view>
                                                 </subviews>
                                                 <constraints>
@@ -2736,7 +2743,7 @@
                         <outlet property="imageView" destination="ea2-DS-fPj" id="ZSy-mC-Tcg"/>
                         <outlet property="mapView" destination="5Nm-K5-GgI" id="eme-Td-rDn"/>
                         <outlet property="moreBT" destination="Jo3-SH-03Y" id="y5Q-ne-0aO"/>
-                        <outlet property="name" destination="IQW-qb-K5e" id="e2o-nG-4K9"/>
+                        <outlet property="nameLabel" destination="IQW-qb-K5e" id="dsY-bh-9hk"/>
                         <outlet property="requestBT" destination="GtM-aP-NrK" id="bT5-m7-pJ1"/>
                         <outlet property="scrollView" destination="xIq-T8-4iI" id="YgW-To-jvX"/>
                         <outlet property="starBT" destination="z0q-WW-HFU" id="Ily-eL-sCM"/>
@@ -2744,7 +2751,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="etf-1h-283" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1845" y="77"/>
+            <point key="canvasLocation" x="1844.9275362318842" y="76.339285714285708"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="6CW-1u-Avs">
@@ -2785,9 +2792,10 @@
         <image name="close" width="30" height="30"/>
         <image name="comment empty" width="32" height="32"/>
         <image name="court" width="37.5" height="37.5"/>
+        <image name="direction" width="30" height="30"/>
         <image name="facebook white border" width="50" height="50"/>
-        <image name="icons8-route-30" width="30" height="30"/>
         <image name="inbox" width="25" height="25"/>
+        <image name="info" width="30" height="30"/>
         <image name="left arrow" width="36" height="36"/>
         <image name="left arrow black" width="30" height="30"/>
         <image name="location rounded" width="30" height="30"/>
@@ -2804,8 +2812,8 @@
         <image name="user profile" width="30" height="30"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="l8k-9r-0H6"/>
-        <segue reference="GMh-ml-K9c"/>
+        <segue reference="SVb-aZ-qis"/>
+        <segue reference="KQW-h7-3l0"/>
         <segue reference="PNK-qj-mfr"/>
     </inferredMetricsTieBreakers>
 </document>
