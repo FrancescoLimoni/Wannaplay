@@ -28,7 +28,7 @@ class SettingTableViewController: UITableViewController {
             subNameTF.isHidden = false
             subNameTF.text = "View Profile"
         } else {
-            imageView.image = #imageLiteral(resourceName: "user black")
+            imageView.image = #imageLiteral(resourceName: "user profile")
             logoutBT.isHidden = true
             nameTF.text = "Log in"
             subNameTF.isHidden = true

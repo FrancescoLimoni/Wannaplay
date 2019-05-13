@@ -167,10 +167,33 @@
                                     <constraint firstItem="X1M-zh-McZ" firstAttribute="leading" secondItem="4gI-Zt-XMm" secondAttribute="leading" id="oqp-2g-aza"/>
                                 </constraints>
                             </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bDf-gG-GfH" userLabel="emptyView">
+                                <rect key="frame" x="44.5" y="114" width="325" height="40"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Ops.. there are no playground here" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nUN-qU-brv">
+                                        <rect key="frame" x="2" y="5" width="321" height="30"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" red="0.9882352941176471" green="0.9882352941176471" blue="0.9882352941176471" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstItem="nUN-qU-brv" firstAttribute="centerX" secondItem="bDf-gG-GfH" secondAttribute="centerX" id="097-TO-FdW"/>
+                                    <constraint firstItem="nUN-qU-brv" firstAttribute="centerY" secondItem="bDf-gG-GfH" secondAttribute="centerY" id="8Df-rI-bgD"/>
+                                    <constraint firstItem="nUN-qU-brv" firstAttribute="top" secondItem="bDf-gG-GfH" secondAttribute="top" constant="5" id="9Vg-f1-7q5"/>
+                                    <constraint firstItem="nUN-qU-brv" firstAttribute="leading" secondItem="bDf-gG-GfH" secondAttribute="leading" constant="2" id="PxS-9b-uYQ"/>
+                                    <constraint firstAttribute="bottom" secondItem="nUN-qU-brv" secondAttribute="bottom" constant="5" id="VoT-Y6-gY7"/>
+                                    <constraint firstAttribute="trailing" secondItem="nUN-qU-brv" secondAttribute="trailing" constant="2" id="cY8-bU-zyu"/>
+                                    <constraint firstAttribute="height" constant="40" id="pSp-hn-3FG"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" red="0.99019607840000001" green="1" blue="1" alpha="0.94999999999999996" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="4gI-Zt-XMm" firstAttribute="leading" secondItem="eN9-Zd-jML" secondAttribute="leading" constant="20" id="05R-YE-WGb"/>
+                            <constraint firstItem="bDf-gG-GfH" firstAttribute="width" secondItem="4gI-Zt-XMm" secondAttribute="width" multiplier="1:1.15" id="3Io-ry-Tq2"/>
+                            <constraint firstItem="bDf-gG-GfH" firstAttribute="centerX" secondItem="Shg-Gy-qTH" secondAttribute="centerX" id="4vR-fT-M6L"/>
                             <constraint firstItem="eN9-Zd-jML" firstAttribute="trailing" secondItem="4gI-Zt-XMm" secondAttribute="trailing" constant="20" id="7Wj-2F-N3w"/>
                             <constraint firstItem="eN9-Zd-jML" firstAttribute="trailing" secondItem="l0g-4O-KtB" secondAttribute="trailing" constant="2" id="8db-h1-6ef"/>
                             <constraint firstItem="Ure-gO-YFh" firstAttribute="bottom" secondItem="eN9-Zd-jML" secondAttribute="bottom" id="KUI-Av-dPB"/>
@@ -183,6 +206,7 @@
                             <constraint firstItem="4gI-Zt-XMm" firstAttribute="centerX" secondItem="Shg-Gy-qTH" secondAttribute="centerX" id="gj0-Fo-7B4"/>
                             <constraint firstItem="Ure-gO-YFh" firstAttribute="leading" secondItem="eN9-Zd-jML" secondAttribute="leading" id="taW-5I-c3n"/>
                             <constraint firstItem="l0g-4O-KtB" firstAttribute="bottom" secondItem="eN9-Zd-jML" secondAttribute="bottom" id="tr8-KE-Fqg"/>
+                            <constraint firstItem="bDf-gG-GfH" firstAttribute="top" secondItem="4gI-Zt-XMm" secondAttribute="bottom" id="uPq-wA-ntZ"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="eN9-Zd-jML"/>
                     </view>
@@ -192,6 +216,7 @@
                     <connections>
                         <outlet property="centerLocationBT" destination="gxM-aN-kms" id="2LL-A5-rxp"/>
                         <outlet property="collectionView" destination="l0g-4O-KtB" id="oKY-kV-eLE"/>
+                        <outlet property="emptyView" destination="bDf-gG-GfH" id="LFh-Cc-DzQ"/>
                         <outlet property="mapView" destination="Ure-gO-YFh" id="mBr-7w-kHn"/>
                         <outlet property="qrCodeBT" destination="xvn-JC-ENN" id="bUR-EO-5y4"/>
                         <outlet property="searchBarView" destination="4gI-Zt-XMm" id="qKh-7P-qKU"/>
@@ -201,7 +226,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="6pj-76-bAt" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1048" y="25"/>
+            <point key="canvasLocation" x="1047.8260869565217" y="24.776785714285712"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="9Bg-0s-hLK">

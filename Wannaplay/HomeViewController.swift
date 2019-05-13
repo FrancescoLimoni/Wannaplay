@@ -25,6 +25,7 @@ class HomeViewController: UIViewController {
     @IBOutlet weak var qrCodeBT: UIButton!
     @IBOutlet weak var searchTextField: UITextField!
     @IBOutlet weak var searchBarView: UIView!
+    @IBOutlet weak var emptyView: UIView!
     @IBOutlet weak var centerLocationBT: UIButton!
     @IBOutlet weak var mapView: MKMapView!
     @IBOutlet weak var collectionView: UICollectionView!
@@ -34,10 +35,10 @@ class HomeViewController: UIViewController {
     private let cornerRadius: CGFloat = 0.28
     private let geoCoder = CLGeocoder()
     private var previousLocation: CLLocation?
-    private var nation: String!
-    private var state: String!
-    private var region: String!
-    private var city: String!
+    private var nation: String?
+    private var state: String?
+    private var region: String?
+    private var city: String?
     private var selectedIndex: Int!
     private var fieldsAround = [Playground]()
     let dispatchGroup = DispatchGroup()
@@ -65,9 +66,6 @@ class HomeViewController: UIViewController {
             self.checkLocationServices()
             self.previousLocation = self.locationManager.location
         }
-        
-        fetchPlaygroundName(nation: "italy", state: "emilia romagna", region: "bologna", city: "bologna")
-
     }
     
     private func Delegates() {
@@ -99,6 +97,10 @@ class HomeViewController: UIViewController {
         centerLocationBT.clipsToBounds = true
         centerLocationBT.layer.cornerRadius = centerLocationBT.frame.height * cornerRadius
         centerLocationBT.layer.maskedCorners = [.layerMaxXMinYCorner, .layerMaxXMaxYCorner]
+        
+        emptyView.clipsToBounds = true
+        emptyView.layer.cornerRadius = emptyView.frame.height * cornerRadius
+        emptyView.layer.maskedCorners = [.layerMaxXMaxYCorner, .layerMinXMaxYCorner]
     }
     
     func setupSearchController() {
@@ -184,7 +186,6 @@ class HomeViewController: UIViewController {
             startTrackingUserLocation()
         case .denied:
             locationManager.requestWhenInUseAuthorization()
-            break
         case .notDetermined:
             locationManager.requestWhenInUseAuthorization()
         case .restricted:
@@ -196,26 +197,25 @@ class HomeViewController: UIViewController {
     
     func startTrackingUserLocation() {
         mapView.showsUserLocation = true
-        centerMapOnUserLocation()
-        //locationManager.startUpdatingLocation()
         locationManager.requestLocation()
         locationManager.startMonitoringSignificantLocationChanges()
-        previousLocation = getCenterLocation(for: mapView)
+        centerMapOnUserLocation()
     }
     
     func centerMapOnUserLocation() {
         if let location =  locationManager.location?.coordinate {
             let region = MKCoordinateRegion.init(center: location, latitudinalMeters: regionInMeters, longitudinalMeters: regionInMeters)
+            let lastLocation = locationManager.location
+            
+            previousLocation = lastLocation
             mapView.setRegion(region, animated: true)
         }
     }
     
-    func getCenterLocation(for mapView: MKMapView) -> CLLocation {
+    func getMapViewCenterLocation(for mapView: MKMapView) -> CLLocation {
         let latitude = mapView.centerCoordinate.latitude
         let longitude = mapView.centerCoordinate.longitude
-        
-        reverseGeoLocation(location: CLLocation(latitude: latitude, longitude: longitude))
-        
+
         return CLLocation(latitude: latitude, longitude: longitude)
     }
 
@@ -228,22 +228,56 @@ class HomeViewController: UIViewController {
             guard let placemark = placemarks?.first else { return }
             
             DispatchQueue.main.async {
-                self?.nation = placemark.country
-                self?.state = placemark.administrativeArea
-                self?.region = placemark.subAdministrativeArea
-                self?.city = placemark.locality
+                self?.nation = placemark.country?.lowercased()
+                self?.state = placemark.administrativeArea?.lowercased()
+                self?.region = placemark.subAdministrativeArea?.lowercased()
+                self?.city = placemark.locality?.lowercased()
+                
+                self?.fetchPlaygroundName(nation: self?.nation! ?? "nil", state: self?.state! ?? "nil", region: self?.region! ?? "nil", city: self?.city! ?? "nil")
+                
+                //print("\n\nNation: \(self?.nation!), State: \(self?.state!), region: \(self?.region!), city: \(self?.city!)")
+                //print("fieldsAround.count = \(self?.fieldsAround.count)")
             }
         }
         
     }
     
+    func usStateEncoding(stateToTest: String) -> String {
+        var newState: String?
+        let statesDictionary = [ "AL":"Alabama","AK":"Alaska","AZ":"Arizona","AR":"Arkansas",
+                                 "CA":"California","CO":"Colorado","CT":"Connecticut","DE":"Delaware","DC":"District of Columbia",
+                                 "FL":"Florida","GA":"Georgia","HI":"Hawaii","ID":"Idaho","IL":"Illinois","IN":"Indiana","IA":"Iowa",
+                                 "KS":"Kansas","KY":"Kentucky","LA":"Louisiana","ME":"Maine","MD":"Maryland","MA":"Massachusetts","MI":"Michigan",
+                                 "MN":"Minnesota","MS":"Mississippi","MO":"Missouri","MT":"Montana",
+                                 "NE":"Nebraska","NV":"Nevada","NH":"New Hampshire","NJ":"New Jersey","NM":"New Mexico","NY":"New York","NC":"North Carolina","ND":"North Dakota",
+                                 "OH":"Ohio","OK":"Oklahoma","OR":"Oregon","PA":"Pennsylvania","RI":"Rhode Island","SC":"South Carolina","SD":"South Dakota",
+                                 "TN":"Tennessee","TX":"Texas","UT":"Utha","VT":"Vermont","VA":"Virginia","WA":"Washington","WV":"West Virginia","WI":"Wisconsin","WY":"Wyoming"
+                                ]
+        
+        for (key, value) in statesDictionary {
+            if key == stateToTest.uppercased() {
+                print("value: \(value)")
+                newState = value.lowercased()
+                break
+            } else {
+                newState = stateToTest
+            }
+        }
+        
+        return newState!
+    }
+    
     private func fetchPlaygroundName(nation: String, state: String, region: String, city: String)  {
         let dbRef = Database.database().reference().child("playgrounds")
+        let newState = usStateEncoding(stateToTest: state)
         
-        dbRef.child(nation).child(state).child(region).child(city).observe(.value, with: { (snapshot) in
+        print("newState: \(newState)")
+        
+        dbRef.child(nation).child(newState).child(region).child(city).observe(.value, with: { (snapshot) in
+            print("snapshot: ", snapshot)
             for child in snapshot.children.allObjects as! [DataSnapshot] {
                 let name = child.key
-                self.fetchPlaygroundData(nation: "italy", state: "emilia romagna", region: "bologna", city: "bologna", name: name)
+                self.fetchPlaygroundData(nation: nation, state: newState, region: region, city: city, name: name)
             }
         }, withCancel: nil)
     }
@@ -281,6 +315,17 @@ class HomeViewController: UIViewController {
         
     }
     
+    func showEmptyView(isHidden: Bool){
+        if isHidden {
+            emptyView.isHidden = true
+            self.collectionView.isHidden = false
+        } else {
+            emptyView.isHidden = false
+            self.collectionView.isHidden = true
+        }
+        
+    }
+    
     @IBAction func locationButtonTapped(_ sender: UIButton) {
         if CLLocationManager.locationServicesEnabled() {
             centerMapOnUserLocation()
@@ -293,8 +338,6 @@ class HomeViewController: UIViewController {
             alert.addAction(UIAlertAction(title: "No", style: .default, handler: nil))
             self.present(alert, animated: true, completion: nil)
         }
-        
-        print("button pressed: \(centerLocationBT.isTouchInside)")
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -327,13 +370,7 @@ class HomeViewController: UIViewController {
 extension HomeViewController: CLLocationManagerDelegate {
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        guard let location = locations.last else { return }
-        
-        DispatchQueue.main.async {
-            let lat = location.coordinate.latitude
-            let lon = location.coordinate.longitude
-            self.reverseGeoLocation(location: CLLocation(latitude: lat, longitude: lon))
-        }
+        print("\n\nuser location changed\n\n")
     }
     
     func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
@@ -349,30 +386,38 @@ extension HomeViewController: CLLocationManagerDelegate {
     }
     
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
-        if error != nil {
-            print("Error: \(error.localizedDescription)")
-            return
-        }
+        print("\n\nUnable to access user location \(error.localizedDescription)\n\n")
     }
 }
 
 extension HomeViewController: MKMapViewDelegate {
     
     func mapView(_ mapView: MKMapView, regionDidChangeAnimated animated: Bool) {
-        let center = getCenterLocation(for: mapView)
+        let center = getMapViewCenterLocation(for: mapView)
+        guard let lastLocation = previousLocation else { return }
         
-        guard let previousLocation = self.previousLocation else { return }
-        guard center.distance(from: previousLocation) > (regionInMeters / 2) else { return }
-        self.previousLocation = center
-        
-        reverseGeoLocation(location: center)
+        if center.distance(from: lastLocation) > (regionInMeters / 2)  {
+            let newCenter = getMapViewCenterLocation(for: mapView)
+            previousLocation = newCenter
+            reverseGeoLocation(location: newCenter)
+            print("\nRegion changed\n")
+        } else {
+            print("\nRegion did not change\n")
+        }
     }
     
 }
 
 extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UIScrollViewDelegate {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return fieldsAround.count
+        if fieldsAround.isEmpty {
+            showEmptyView(isHidden: false)
+            return 0
+        } else {
+            showEmptyView(isHidden: true)
+            collectionView.backgroundView = nil
+            return fieldsAround.count
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
