@@ -99,8 +99,8 @@ class PlaygroundViewController: UIViewController {
     }
     
     func setupStarBTImage() {
-        starBT.setImage(#imageLiteral(resourceName: "star solid yellow"), for: .selected)
-        starBT.setImage(#imageLiteral(resourceName: "star solid black"), for: .normal)
+        starBT.setImage(UIImage(named: "heart filled"), for: .selected)
+        starBT.setImage(UIImage(named: "heart empty"), for: .normal)
     }
     
     func setupAnnotationOnMap(latitude: Double, longitude: Double) {
@@ -119,20 +119,38 @@ class PlaygroundViewController: UIViewController {
         return true
     }
     
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier ==  "makeRequestSegue" {
+            let vc = segue.destination as! RequestViewController
+            let name = self.nameLabel!.text!
+            
+            vc.fieldButton?.setTitle("hello", for: .selected)
+            vc.fieldButton?.isSelected = true
+            //vc.fieldButton.titleLabel?.text = "Hello"
+        }
+    }
+    
     @IBAction func backBTTapped(_ sender: Any) {
         dismiss(animated: true, completion: nil)
     }
     
     @IBAction func moreBTTapped(_ sender: Any) {
-        let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-        let share = UIAlertAction(title: "Share", style: .default) { (action) in
+        var alert = UIAlertController()
+        var share = UIAlertAction()
+        var qrCode = UIAlertAction()
+        var direction = UIAlertAction()
+        var report = UIAlertAction()
+        var cancel =  UIAlertAction()
+        
+        alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        share = UIAlertAction(title: "Share", style: .default) { (action) in
             let shareString = "Share useful information about this"
             let shareActivity = UIActivityViewController(activityItems: [shareString], applicationActivities: nil)
             shareActivity.popoverPresentationController?.sourceView = self.view
             self.present(shareActivity, animated: true, completion: nil)
         }
-        let qrCode = UIAlertAction(title: "Qr Code", style: .default, handler: nil)
-        let direction = UIAlertAction(title: "Get Direction", style: .default) { (action) in
+        qrCode = UIAlertAction(title: "Qr Code", style: .default, handler: nil)
+        direction = UIAlertAction(title: "Get Direction", style: .default) { (action) in
             let coordinates = CLLocationCoordinate2D(latitude: 44.489415, longitude: 11.388137)
             let span  = MKCoordinateSpan(latitudeDelta: 0.03, longitudeDelta: 0.03)
             let region = MKCoordinateRegion(center: coordinates, span: span)
@@ -143,8 +161,8 @@ class PlaygroundViewController: UIViewController {
             
             mapItem.openInMaps(launchOptions: option)
         }
-        let report = UIAlertAction(title: "Report Problem", style: .destructive, handler: nil)
-        let cancel = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        report = UIAlertAction(title: "Report Problem", style: .destructive, handler: nil)
+        cancel = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
 
         share.setValue(UIImage(named: "share"), forKey: "image")
         qrCode.setValue(UIImage(named: "qr code"), forKey: "image")
@@ -155,17 +173,18 @@ class PlaygroundViewController: UIViewController {
         alert.addAction(direction)
         alert.addAction(report)
         alert.addAction(cancel)
-        self.present(alert, animated: true, completion: nil)
+        alert.view.tintColor = .black
+        present(alert, animated: true, completion: nil)
     }
     
     @IBAction func starBTTapped(_ sender: Any) {
         
-        if isLiked == false {
-            starBT.isSelected = true
-            isLiked = true
-        } else {
+        if isLiked {
             starBT.isSelected = false
             isLiked = false
+        } else {
+            starBT.isSelected = true
+            isLiked = true
         }
     }
     
@@ -180,6 +199,11 @@ class PlaygroundViewController: UIViewController {
         
         mapItem.openInMaps(launchOptions: option)
     }
+    
+    @IBAction func requestButtonTapped(_ sender: UIButton) {
+        performSegue(withIdentifier: "makeRequestSegue", sender: self)
+    }
+    
 }
 
 extension PlaygroundViewController: UIScrollViewDelegate {

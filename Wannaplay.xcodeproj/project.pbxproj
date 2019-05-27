@@ -34,6 +34,7 @@
 		AC80A74722754C0000DDF77E /* ChatTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC80A74622754C0000DDF77E /* ChatTableViewController.swift */; };
 		AC8ABADF226D0C390078F84A /* PlaygroundViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC8ABADE226D0C390078F84A /* PlaygroundViewController.swift */; };
 		AC98775D2287453700A0E817 /* NotificationTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC98775C2287453700A0E817 /* NotificationTableViewController.swift */; };
+		AC9C33812293D27300C575B8 /* ReportViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC9C33802293D27300C575B8 /* ReportViewController.swift */; };
 		ACA4B1EF227F938F008556E0 /* NewMessageTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACA4B1EE227F938F008556E0 /* NewMessageTableViewController.swift */; };
 		ACA4B1F4227F9997008556E0 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACA4B1F3227F9997008556E0 /* User.swift */; };
 		ACAF82C3227C817E00276B34 /* GradientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACAF82C2227C817E00276B34 /* GradientView.swift */; };
@@ -78,6 +79,7 @@
 		AC80A74622754C0000DDF77E /* ChatTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ChatTableViewController.swift; path = ../ChatTableViewController.swift; sourceTree = "<group>"; };
 		AC8ABADE226D0C390078F84A /* PlaygroundViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaygroundViewController.swift; sourceTree = "<group>"; };
 		AC98775C2287453700A0E817 /* NotificationTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationTableViewController.swift; sourceTree = "<group>"; };
+		AC9C33802293D27300C575B8 /* ReportViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportViewController.swift; sourceTree = "<group>"; };
 		ACA4B1EE227F938F008556E0 /* NewMessageTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = NewMessageTableViewController.swift; path = ../NewMessageTableViewController.swift; sourceTree = "<group>"; };
 		ACA4B1F3227F9997008556E0 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		ACAF82C2227C817E00276B34 /* GradientView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientView.swift; sourceTree = "<group>"; };
@@ -172,6 +174,7 @@
 				AC7CB76E226A496300E1C021 /* Info.plist */,
 				AC349CCA226A69730070DB9C /* GoogleService-Info.plist */,
 				AC98775C2287453700A0E817 /* NotificationTableViewController.swift */,
+				AC9C33802293D27300C575B8 /* ReportViewController.swift */,
 			);
 			path = Wannaplay;
 			sourceTree = "<group>";
@@ -373,6 +376,7 @@
 				AC7CB784226A531D00E1C021 /* LoginViewController.swift in Sources */,
 				ACE1DF1B2273F195000C8383 /* NewsFeedTableViewController.swift in Sources */,
 				AC80A74522751A2000DDF77E /* UserProfileViewController.swift in Sources */,
+				AC9C33812293D27300C575B8 /* ReportViewController.swift in Sources */,
 				AC7CB77F226A52B000E1C021 /* SettingTableViewController.swift in Sources */,
 				AC7CB763226A495B00E1C021 /* AppDelegate.swift in Sources */,
 				AC7CB77D226A526B00E1C021 /* RequestViewController.swift in Sources */,

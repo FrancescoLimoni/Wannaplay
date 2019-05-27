@@ -42,8 +42,8 @@ class NewsFeedCellTableViewController: UITableViewCell {
     private var isLiked: Bool = false
     
     @IBAction func starBTTapped(_ sender: UIButton) {
-        starBT.setImage(#imageLiteral(resourceName: "star solid yellow"), for: .selected)
-        starBT.setImage(#imageLiteral(resourceName: "star solid black"), for: .normal)
+        starBT.setImage(UIImage(named: "heart filled padding"), for: .selected)
+        starBT.setImage(UIImage(named: "heart empty padding"), for: .normal)
         
         if isLiked == false {
             starBT.isSelected = true

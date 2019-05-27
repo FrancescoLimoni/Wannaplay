@@ -22,6 +22,8 @@ class RequestViewController: UIViewController {
     @IBOutlet weak var playersNeededTF: UITextField!
     @IBOutlet weak var refereeNeededTF: UITextField!
     @IBOutlet weak var fieldView: UIView!
+    @IBOutlet weak var fieldLabel: UILabel!
+    @IBOutlet weak var fieldButton: UIButton!
     @IBOutlet weak var locationView: UIView!
     @IBOutlet weak var cancelBT: UIButton!
     @IBOutlet weak var requestBT: UIButton!
